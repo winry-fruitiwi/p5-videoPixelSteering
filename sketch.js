@@ -5,7 +5,7 @@
  *
  */
 let font
-let instructions
+let instructions, vehicles
 
 
 function preload() {
@@ -24,13 +24,46 @@ function setup() {
     instructions.html(`<pre>
         [1,2,3,4,5] → no function
         z → freeze sketch</pre>`)
+
+    textFont(font);
+    textSize(16);
+    fill(0, 50, 100);
+    stroke(220, 80, 100);
+    strokeWeight(5)
+
+    vehicles = []
+
+    let points = font.textToPoints("Train", 10, 2*height/3, 200,
+        {
+            sampleFactor: 0.5,
+            simplifyThreshold: 0
+        })
+
+    for (let i = 0; i < points.length; i++) {
+        let pt = points[i]
+        let vehicleHue = int(map(i, 0, points.length - 1,
+            0, 360))
+
+        let vehicleColor = color([vehicleHue, 80, 80])
+
+        vehicles.push(new Vehicle(pt.x, pt.y, vehicleColor))
+    }
 }
 
 
 function draw() {
     background(234, 34, 24)
 
-
+    for (let i = 0; i < vehicles.length; i++) {
+        let v = vehicles[i]
+        v.update()
+        v.show()
+        noStroke()
+        // circle(mouseX, mouseY, 80)
+        stroke(220, 80, 100);
+        strokeWeight(5)
+        v.behaviors()
+    }
 
     displayDebugCorner()
 }
