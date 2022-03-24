@@ -7,6 +7,7 @@ function Vehicle(x, y, color, vehicleWidth) {
     this.maxforce = 0.3
     this.r = vehicleWidth
     this.color = color
+    this.renderSquare = false
 }
 
 Vehicle.prototype.update = function() {
@@ -18,9 +19,13 @@ Vehicle.prototype.update = function() {
 Vehicle.prototype.show = function() {
     noStroke()
     fill(this.color)
-    square(this.pos.x, this.pos.y, this.r)
 
     // point(this.pos.x, this.pos.y)
+    if (this.renderSquare) {
+        square(this.pos.x, this.pos.y, this.r)
+    } else {
+        circle(this.pos.x, this.pos.y, this.r)
+    }
 }
 
 
